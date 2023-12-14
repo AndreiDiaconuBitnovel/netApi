@@ -12,7 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<TestContext>(options =>
+builder.Services.AddDbContext<TeamDropDatabaseContext>(options =>
 {
     options.UseSqlServer("Name=ConnectionStrings");
 });

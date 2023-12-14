@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication2.DataDB;
 
-public partial class TestContext : DbContext
+public partial class TeamDropDatabaseContext : DbContext
 {
-    public TestContext()
+    public TeamDropDatabaseContext()
     {
     }
 
-    public TestContext(DbContextOptions<TestContext> options)
+    public TeamDropDatabaseContext(DbContextOptions<TeamDropDatabaseContext> options)
         : base(options)
     {
     }
@@ -28,7 +28,6 @@ public partial class TestContext : DbContext
                 .HasNoKey()
                 .ToTable("testDb");
 
-            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Name)
                 .HasMaxLength(50)
                 .HasColumnName("name");

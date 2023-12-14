@@ -7,9 +7,9 @@ namespace WebApplication2.Services.TestDbServiceFolder
     public class TestDBService : ITestDBService
     {
 
-        private readonly TestContext _testContext;
+        private readonly TeamDropDatabaseContext _testContext;
 
-        public TestDBService(TestContext testContext)
+        public TestDBService(TeamDropDatabaseContext testContext)
         {
             _testContext = testContext;
         }
