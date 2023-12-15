@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.DataDB;
 using WebApplication2.Services.TestDbServiceFolder;
+using WebApplication2.Services.TranslateLanguageFolder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ builder.Services.AddCors(options => options.AddPolicy("FrontEnd", policy =>
     policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
 }));
 builder.Services.AddScoped<ITestDBService, TestDBService>();
+builder.Services.AddScoped<ITranslateLanguageService, TranslateLanguageService>();
 
 var app = builder.Build();
 
