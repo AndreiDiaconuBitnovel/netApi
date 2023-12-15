@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication2.DataDB;
 using WebApplication2.Services.TestDbServiceFolder;
