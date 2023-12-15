@@ -414,3 +414,6 @@ FodyWeavers.xsd
 /obj/WebApplication2.csproj.nuget.dgspec.json
 /obj/Debug/net7.0/WebApplication2.AssemblyInfo.cs
 /obj/Debug/net7.0/WebApplication2.AssemblyInfoInputs.cache
+/obj/Debug/net7.0/WebApplication2.csproj.AssemblyReference.cache
+/obj/WebApplication2.csproj.nuget.g.props
+/obj/WebApplication2.csproj.nuget.g.targets
