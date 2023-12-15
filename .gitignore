@@ -398,3 +398,17 @@ FodyWeavers.xsd
 *.sln.iml
 /obj/Debug/net7.0/WebApplication2.assets.cache
 /obj/Debug/net7.0/WebApplication2.GeneratedMSBuildEditorConfig.editorconfig
+/bin/Debug/net7.0/WebApplication2.dll
+/bin/Debug/net7.0/WebApplication2.exe
+/bin/Debug/net7.0/WebApplication2.pdb
+/obj/Debug/net7.0/ref/WebApplication2.dll
+/obj/Debug/net7.0/refint/WebApplication2.dll
+/obj/Debug/net7.0/apphost.exe
+/obj/Debug/net7.0/WebApplication2.csproj.CoreCompileInputs.cache
+/obj/Debug/net7.0/WebApplication2.csproj.FileListAbsolute.txt
+/obj/Debug/net7.0/WebApplication2.dll
+/obj/Debug/net7.0/WebApplication2.genruntimeconfig.cache
+/obj/Debug/net7.0/WebApplication2.pdb
+/obj/project.assets.json
+/obj/project.nuget.cache
+/obj/WebApplication2.csproj.nuget.dgspec.json
