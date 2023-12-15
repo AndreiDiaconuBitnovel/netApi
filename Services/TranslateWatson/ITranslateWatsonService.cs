@@ -4,5 +4,6 @@
     {
         Task<TranslateWatsonRes> GetTranslation(TranslateWatsonReq req);
         Task<bool> Validate(TranslateWatsonReq req);
+        Task<bool> PairsExist(TranslateWatsonReq req);
     }
 }

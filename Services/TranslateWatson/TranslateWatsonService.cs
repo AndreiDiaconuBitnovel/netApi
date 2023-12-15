@@ -20,8 +20,45 @@ namespace WebApplication2.Services.TranslateWatson
         }
         public async Task<TranslateWatsonRes> GetTranslation(TranslateWatsonReq req)
         {
-            string translation = await translate(req);
-            return new TranslateWatsonRes(req, translation);
+            string en = "en";
+            bool pairsExist = await PairsExist(req);
+            var err = new HttpRequestException(
+                    "Translation between these two languages is unavailable.",
+                    null,
+                    System.Net.HttpStatusCode.NotFound
+                );
+            if (pairsExist)
+            {
+                // Direct translation available:
+                string translation = await translate(req);
+                return new TranslateWatsonRes(req, translation);
+            } else {
+                if (req.From == en || req.To == en)
+                {
+                    throw err;
+                } else {
+                    // Intermediare translation:
+                    TranslateWatsonReq req1 = req.CopyRequest();
+                    req1.To = en;
+                    bool ok1 = await PairsExist(req1);
+                    if (!ok1)
+                    {
+                        throw err;
+                    }
+                    string translation1 = await translate(req1);
+                    // Final translation:
+                    TranslateWatsonReq req2 = req.CopyRequest();
+                    req2.From = en;
+                    req2.InputText = translation1;
+                    bool ok2 = await PairsExist(req2);
+                    if (!ok2)
+                    {
+                        throw err;
+                    }
+                    string translation2 = await translate(req2);
+                    return new TranslateWatsonRes(req, translation2);
+                }
+            }
         }
 
         private async Task<string> translate(TranslateWatsonReq req)
@@ -46,6 +83,18 @@ namespace WebApplication2.Services.TranslateWatson
             return translation;
         }
 
+        public async Task<bool> PairsExist(TranslateWatsonReq req)
+        {
+            List<TranslateLanguagePair> res = await _testContext.TranslateLanguagePairs.ToListAsync();
+            foreach (TranslateLanguagePair pair in res) {
+                if(req.From == pair.Source && req.To == pair.Target)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public async Task<bool> Validate(TranslateWatsonReq req)
         {
             // Don't try to translate into same language:
@@ -57,9 +106,9 @@ namespace WebApplication2.Services.TranslateWatson
             List<TranslateLanguage> res = await _testContext.TranslateLanguages.ToListAsync();
             bool found1 = false;
             bool found2 = false;
-            for(int i=0; i<res.Count; i++)
+            foreach (TranslateLanguage language in res)
             {
-                string code = res[i].Code;
+                string code = language.Code;
                 if(req.From == code) {
                     found1 = true;
                 } else if(req.To == code) {

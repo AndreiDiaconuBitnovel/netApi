@@ -10,5 +10,14 @@
         {
             return From + "-" + To;
         }
+
+        public TranslateWatsonReq CopyRequest()
+        {
+            TranslateWatsonReq req1 = new TranslateWatsonReq();
+            req1.From = From;
+            req1.To = To;
+            req1.InputText = InputText;
+            return req1;
+        }
     }
 }
