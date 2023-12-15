@@ -412,3 +412,5 @@ FodyWeavers.xsd
 /obj/project.assets.json
 /obj/project.nuget.cache
 /obj/WebApplication2.csproj.nuget.dgspec.json
+/obj/Debug/net7.0/WebApplication2.AssemblyInfo.cs
+/obj/Debug/net7.0/WebApplication2.AssemblyInfoInputs.cache
