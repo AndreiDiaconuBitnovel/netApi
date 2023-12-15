@@ -396,3 +396,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/obj/Debug/net7.0/WebApplication2.assets.cache
+/obj/Debug/net7.0/WebApplication2.GeneratedMSBuildEditorConfig.editorconfig
