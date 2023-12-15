@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApplication2.DataDB;
 using WebApplication2.Services.TestDbServiceFolder;
 using WebApplication2.Services.TranslateLanguageFolder;
+using WebApplication2.Services.TranslateWatson;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,7 @@ builder.Services.AddCors(options => options.AddPolicy("FrontEnd", policy =>
 }));
 builder.Services.AddScoped<ITestDBService, TestDBService>();
 builder.Services.AddScoped<ITranslateLanguageService, TranslateLanguageService>();
+builder.Services.AddScoped<ITranslateWatsonService, TranslateWatsonService>();
 
 var app = builder.Build();
 

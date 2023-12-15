@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApplication2.Models.TestDBModels;
-using WebApplication2.Services.TestDbServiceFolder;
-using System.Linq;
 using WebApplication2.DataDB;
 using WebApplication2.Services.TranslateLanguageFolder;
 
