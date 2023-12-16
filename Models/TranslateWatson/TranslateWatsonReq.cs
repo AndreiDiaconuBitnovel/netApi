@@ -5,6 +5,7 @@
         public string? From { get; set; }
         public string? To { get; set; }
         public string? InputText { get; set; }
+        public string? UserId { get; set; }
 
         public string getLanguageModule()
         {

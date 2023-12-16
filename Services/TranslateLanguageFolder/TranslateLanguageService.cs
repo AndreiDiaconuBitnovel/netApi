@@ -13,7 +13,7 @@ namespace WebApplication2.Services.TranslateLanguageFolder
         }
         public async Task<List<TranslateLanguage>> GetAllDataFromTranslateLanguageTable()
         {
-            List<TranslateLanguage> res = await _testContext.TranslateLanguages.ToListAsync();
+            List<TranslateLanguage> res = await _testContext.TranslateLanguages.OrderBy(l => l.NameInternational).ToListAsync();
             return res;
         }
     }

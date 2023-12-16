@@ -21,6 +21,20 @@ namespace WebApplication2.Services.TranslateWatson
         }
         public async Task<TranslateWatsonRes> GetTranslation(TranslateWatsonReq req)
         {
+            // Find user:
+            bool userFound = _testContext.Users
+                .Where(u => u.IdUser.ToString().ToUpper() == req.UserId.ToUpper())
+                .Count() > 0;
+            if (!userFound)
+            {
+                var errUserNotFound = new HttpRequestException(
+                        "User not found.",
+                        null,
+                        System.Net.HttpStatusCode.NotFound
+                    );
+                throw errUserNotFound;
+            }
+
             string en = "en";
             bool pairsExist = await PairsExist(req);
             var err = new HttpRequestException(
@@ -32,7 +46,9 @@ namespace WebApplication2.Services.TranslateWatson
             {
                 // Direct translation available:
                 string translation = await translate(req);
-                return new TranslateWatsonRes(req, translation);
+                TranslateWatsonRes translateWatsonRes = new TranslateWatsonRes(req, translation);
+                SaveResponse(translateWatsonRes, req.UserId);
+                return translateWatsonRes;
             } else {
                 if (req.From == en || req.To == en)
                 {
@@ -57,7 +73,9 @@ namespace WebApplication2.Services.TranslateWatson
                         throw err;
                     }
                     string translation2 = await translate(req2);
-                    return new TranslateWatsonRes(req, translation2);
+                    TranslateWatsonRes translateWatsonRes = new TranslateWatsonRes(req, translation2);
+                    SaveResponse(translateWatsonRes, req.UserId);
+                    return translateWatsonRes;
                 }
             }
         }
@@ -117,6 +135,11 @@ namespace WebApplication2.Services.TranslateWatson
                 }
             }
             return found1 && found2;
+        }
+        
+        private async void SaveResponse(TranslateWatsonRes res, string userId)
+        {
+            // TODO:
         }
     }
 }
