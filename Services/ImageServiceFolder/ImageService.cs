@@ -1,4 +1,5 @@
-﻿using WebApplication2.DataDB;
+﻿using Microsoft.EntityFrameworkCore;
+using WebApplication2.DataDB;
 
 namespace WebApplication2.Services.ImageServiceFolder
 {
@@ -10,6 +11,12 @@ namespace WebApplication2.Services.ImageServiceFolder
         {
             _testContext = testContext;
         }
+
+        public async Task<Image> GetImage(Guid id)
+        {
+            return await _testContext.Images.FirstOrDefaultAsync(x=>x.Id==id);
+        }
+
         public async Task<Guid> InsertImage(byte[] fileContent)
         {
             try { 

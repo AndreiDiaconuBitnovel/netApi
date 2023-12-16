@@ -132,6 +132,10 @@ namespace WebApplication2.Controllers
             return plainBytes;
         }
 
+        public static void RemoveImageFromPath(string filePath)
+        {
+            System.IO.File.Delete(filePath);
+        }
     }
 }
 
