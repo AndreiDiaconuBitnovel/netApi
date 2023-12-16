@@ -1,4 +1,4 @@
-﻿namespace WebApplication2.Services.TranslateWatson
+﻿namespace WebApplication2.Models.TranslateWatson
 {
     public class TranslateWatsonRes
     {
@@ -7,10 +7,11 @@
         public string? InputText { get; set; }
         public string? TranslatedText { get; set; }
 
-        public TranslateWatsonRes(TranslateWatsonReq req, String TranslatedText) {
-            this.From = req.From;
-            this.To = req.To;
-            this.InputText = req.InputText;
+        public TranslateWatsonRes(TranslateWatsonReq req, string TranslatedText)
+        {
+            From = req.From;
+            To = req.To;
+            InputText = req.InputText;
             this.TranslatedText = TranslatedText;
         }
     }

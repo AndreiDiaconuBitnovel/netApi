@@ -1,4 +1,6 @@
-﻿namespace WebApplication2.Services.TranslateWatson
+﻿using WebApplication2.Models.TranslateWatson;
+
+namespace WebApplication2.Services.TranslateWatson
 {
     public interface ITranslateWatsonService
     {

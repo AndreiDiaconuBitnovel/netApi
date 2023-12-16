@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApplication2.Models.TranslateWatson;
 using WebApplication2.Services.TranslateWatson;
 
 namespace WebApplication2.Controllers

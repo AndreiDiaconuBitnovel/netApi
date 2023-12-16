@@ -1,4 +1,4 @@
-﻿namespace WebApplication2.Services.TranslateWatson
+﻿namespace WebApplication2.Models.TranslateWatson
 {
     public class TranslateWatsonReq
     {

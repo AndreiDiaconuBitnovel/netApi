@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text.Json;
 using WebApplication2.DataDB;
+using WebApplication2.Models.TranslateWatson;
 
 namespace WebApplication2.Services.TranslateWatson
 {
