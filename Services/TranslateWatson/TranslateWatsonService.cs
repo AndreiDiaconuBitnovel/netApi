@@ -21,20 +21,7 @@ namespace WebApplication2.Services.TranslateWatson
         }
         public async Task<TranslateWatsonRes> GetTranslation(TranslateWatsonReq req)
         {
-            // Find user:
-            bool userFound = _testContext.Users
-                .Where(u => u.IdUser.ToString().ToUpper() == req.UserId.ToUpper())
-                .Count() > 0;
-            if (!userFound)
-            {
-                var errUserNotFound = new HttpRequestException(
-                        "User not found.",
-                        null,
-                        System.Net.HttpStatusCode.NotFound
-                    );
-                throw errUserNotFound;
-            }
-
+            FindUser(req.UserId);
             string en = "en";
             bool pairsExist = await PairsExist(req);
             var err = new HttpRequestException(
@@ -136,10 +123,87 @@ namespace WebApplication2.Services.TranslateWatson
             }
             return found1 && found2;
         }
-        
-        private async void SaveResponse(TranslateWatsonRes res, string userId)
+
+        private void FindUser(string userId)
         {
-            // TODO:
+            // Find user:
+            bool userFound = _testContext.Users
+                .Where(u => u.IdUser.ToString().ToUpper() == userId.ToUpper())
+                .Count() > 0;
+            if (!userFound)
+            {
+                var errUserNotFound = new HttpRequestException(
+                        "User not found.",
+                        null,
+                        System.Net.HttpStatusCode.NotFound
+                    );
+                throw errUserNotFound;
+            }
+        }
+
+        private string GetTranslationFolder()
+        {
+            return "TranslationResults";
+        }
+
+        public List<TranslateWatsonRes> LoadUserResponses(string userId)
+        {
+            FindUser(userId);
+            List<TranslateWatsonRes> res = new List<TranslateWatsonRes>();
+            List<TransalteFileRef> fileRefs = _testContext.TransalteFileRefs
+                .Where(f => f.UserId.ToString().ToUpper() == userId.ToUpper())
+                .ToList();
+            string folder = GetTranslationFolder();
+
+            fileRefs.ForEach(f => {
+                TranslateWatsonReq translateWatsonReq = new TranslateWatsonReq();
+                translateWatsonReq.From = f.Source;
+                translateWatsonReq.To = f.Target;
+                string fileInput = folder + "\\" + f.InputFile;
+                string fileOutput = folder + "\\" + f.OutputFile;
+
+                using (var sr = new StreamReader(fileInput))
+                {
+                    translateWatsonReq.InputText = sr.ReadToEnd();
+                }
+                string outputText;
+                using (var sr = new StreamReader(fileOutput))
+                {
+                    outputText = sr.ReadToEnd();
+                }
+
+                TranslateWatsonRes translateWatsonRes = new TranslateWatsonRes(translateWatsonReq, outputText);
+                res.Add(translateWatsonRes);
+            });
+            return res;
+        }
+        
+        private void SaveResponse(TranslateWatsonRes res, string userId)
+        {
+            TransalteFileRef fileRef = new TransalteFileRef();
+            fileRef.UserId = Guid.Parse(userId);
+            fileRef.Source = res.From;
+            fileRef.Target = res.To;
+
+            Guid sourceId = Guid.NewGuid();
+            Guid targetId = Guid.NewGuid();
+            fileRef.InputFile = sourceId.ToString().ToUpper() + ".txt";
+            fileRef.OutputFile = targetId.ToString().ToUpper() + ".txt";
+            string folderToSave = GetTranslationFolder();
+
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(folderToSave, fileRef.InputFile), true))
+            {
+                outputFile.Write(res.InputText);
+            }
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(folderToSave, fileRef.OutputFile), true))
+            {
+                outputFile.Write(res.TranslatedText);
+            }
+
+            fileRef.Id = Guid.NewGuid();
+
+            _testContext.TransalteFileRefs.Add(fileRef);
+            _testContext.SaveChanges();
         }
     }
 }

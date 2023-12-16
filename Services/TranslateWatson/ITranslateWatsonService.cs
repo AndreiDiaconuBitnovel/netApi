@@ -7,5 +7,6 @@ namespace WebApplication2.Services.TranslateWatson
         Task<TranslateWatsonRes> GetTranslation(TranslateWatsonReq req);
         Task<bool> Validate(TranslateWatsonReq req);
         Task<bool> PairsExist(TranslateWatsonReq req);
+        List<TranslateWatsonRes> LoadUserResponses(string userId);
     }
 }
