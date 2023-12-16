@@ -36,7 +36,20 @@ namespace WebApplication2.Controllers
         public async Task<AuthResult> Register(UserDetailsRegister userDetails)
         {
 
-            var file = Request.Form.Files.First();
+            IFormFile file = null;
+            try
+            {
+                file = Request.Form.Files.First();
+            }
+            catch (Exception e)
+            {
+                return new AuthResult()
+                {
+                    Errors = new List<string>() { "Invalid picture, please try again!" },
+                    IsSuccessful = false,
+                    Token = ""
+                };
+            }
 
             if (file == null)
             {
@@ -113,7 +126,7 @@ namespace WebApplication2.Controllers
                 var fileContent = memoryStream.ToArray();
                 var encryptedData = EncryptBytes(fileContent, "SensitivePhrase", "SodiumChloride");
 
-                var userInserted = _userService.SaveUserAndImg(userDetails.Email, userDetails.Username, encryptedData);
+                var userInserted =await  _userService.SaveUserAndImg(userDetails.Email, userDetails.Username, encryptedData);
                 if (userInserted == null)
                 {
                     return new AuthResult()
@@ -123,7 +136,7 @@ namespace WebApplication2.Controllers
                         Token = ""
                     };
                 }
-                var token = JwtToken.CreateToken(userDetails.Username, _configuration);
+                var token = JwtToken.CreateToken(userInserted.Username, userInserted.Email, userInserted.IdUser.ToString(), _configuration);
                 return new AuthResult()
                 {
                     Errors = new List<string>(),
@@ -234,7 +247,8 @@ namespace WebApplication2.Controllers
                     };
                 }
 
-                var token = JwtToken.CreateToken(userDetails.Username, _configuration);
+                var token = JwtToken.CreateToken(userDetails.Username, userDetails.Email, userDetails.IdUser.ToString(), _configuration);
+
                 return new AuthResult()
                 {
                     Errors = new List<string>(),
