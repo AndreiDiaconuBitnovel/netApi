@@ -33,9 +33,13 @@ namespace WebApplication2.Controllers
 
         [HttpPost, DisableRequestSizeLimit]
         [Route("register")]
-        public async Task<AuthResult> Register(UserDetailsRegister userDetails)
+        public async Task<AuthResult> Register([FromQuery]string username, [FromQuery]string email)
         {
-
+            UserDetailsRegister userDetails= new UserDetailsRegister()
+            {
+                Username = username,
+                Email = email
+            }; 
             IFormFile file = null;
             try
             {
@@ -161,8 +165,17 @@ namespace WebApplication2.Controllers
 
         [HttpPost, DisableRequestSizeLimit]
         [Route("login")]
-        public async Task<AuthResult> Login([FromBody] string username)
+        public async Task<AuthResult> Login([FromQuery] string username)
         {
+            if(username==null || String.Empty.Equals(username))
+            {
+                return new AuthResult()
+                {
+                    Errors = new List<string>() { "Invalid username, please try again!" },
+                    IsSuccessful = false,
+                    Token = ""
+                };
+            }
             IFormFile file = null;
             try
             {
