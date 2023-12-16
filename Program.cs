@@ -15,6 +15,9 @@ using System.Text.Json.Serialization;
 using WebApplication2.Configuration;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Identity;
+using WebApplication2.Services.UserService;
+using WebApplication2.Services.UserServiceFolder;
+using WebApplication2.Services.ImageServiceFolder;
 
 
 
@@ -63,6 +66,10 @@ builder.Services.AddCors(options => options.AddPolicy("FrontEnd", policy =>
 builder.Services.AddScoped<ITestDBService, TestDBService>();
 builder.Services.AddScoped<ITranslateLanguageService, TranslateLanguageService>();
 builder.Services.AddScoped<ITranslateWatsonService, TranslateWatsonService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IImageService, ImageService>();
+
+
 
 var app = builder.Build();
 

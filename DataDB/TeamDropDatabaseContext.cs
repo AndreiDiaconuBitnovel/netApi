@@ -23,6 +23,8 @@ public partial class TeamDropDatabaseContext : DbContext
 
     public virtual DbSet<TranslateLanguagePair> TranslateLanguagePairs { get; set; }
 
+    public virtual DbSet<User> Users { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer("Name=ConnectionStrings");
 
@@ -68,6 +70,28 @@ public partial class TeamDropDatabaseContext : DbContext
 
             entity.Property(e => e.Source).HasMaxLength(3);
             entity.Property(e => e.Target).HasMaxLength(3);
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.HasKey(e => e.IdUser);
+
+            entity.ToTable("User");
+
+            entity.Property(e => e.IdUser)
+                .ValueGeneratedNever()
+                .HasColumnName("idUser");
+            entity.Property(e => e.Email)
+                .HasMaxLength(50)
+                .HasColumnName("email");
+            entity.Property(e => e.IdImg).HasColumnName("idImg");
+            entity.Property(e => e.Username)
+                .HasMaxLength(50)
+                .HasColumnName("username");
+
+            entity.HasOne(d => d.IdImgNavigation).WithMany(p => p.Users)
+                .HasForeignKey(d => d.IdImg)
+                .HasConstraintName("FK_User_Image");
         });
 
         OnModelCreatingPartial(modelBuilder);
