@@ -19,6 +19,8 @@ public partial class TeamDropDatabaseContext : DbContext
 
     public virtual DbSet<TestDb> TestDbs { get; set; }
 
+    public virtual DbSet<TransalteFileRef> TransalteFileRefs { get; set; }
+
     public virtual DbSet<TranslateLanguage> TranslateLanguages { get; set; }
 
     public virtual DbSet<TranslateLanguagePair> TranslateLanguagePairs { get; set; }
@@ -51,11 +53,26 @@ public partial class TeamDropDatabaseContext : DbContext
                 .HasColumnName("prenume");
         });
 
+        modelBuilder.Entity<TransalteFileRef>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Transalt__3214EC27DE8C14B9");
+
+            entity.ToTable("TransalteFileRef");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("ID");
+            entity.Property(e => e.InputFile).HasMaxLength(50);
+            entity.Property(e => e.OutputFile).HasMaxLength(50);
+            entity.Property(e => e.Source).HasMaxLength(3);
+            entity.Property(e => e.Target).HasMaxLength(3);
+        });
+
         modelBuilder.Entity<TranslateLanguage>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("TranslateLanguage");
+            entity.HasKey(e => e.Code).HasName("PK__Translat__A25C5AA6DF87E7F3");
+
+            entity.ToTable("TranslateLanguage");
 
             entity.Property(e => e.Code).HasMaxLength(3);
             entity.Property(e => e.NameInternational).HasMaxLength(50);
@@ -64,10 +81,13 @@ public partial class TeamDropDatabaseContext : DbContext
 
         modelBuilder.Entity<TranslateLanguagePair>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("TranslateLanguagePair");
+            entity.HasKey(e => e.Id).HasName("PK__Translat__3214EC2793D61D8A");
 
+            entity.ToTable("TranslateLanguagePair");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("ID");
             entity.Property(e => e.Source).HasMaxLength(3);
             entity.Property(e => e.Target).HasMaxLength(3);
         });

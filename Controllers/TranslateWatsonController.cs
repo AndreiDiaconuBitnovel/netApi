@@ -31,5 +31,12 @@ namespace WebApplication2.Controllers
             var result = await _translateWatsonService.GetTranslation(req);
             return result;
         }
+
+        [HttpPost, DisableRequestSizeLimit]
+        [Route("translateHistory")]
+        public async Task<List<TranslateWatsonRes>> GetAllTranslateLanguageHistoryRecord(TranslateWatsonHistoryReq req)
+        {
+            return _translateWatsonService.LoadUserResponses(req.UserId);
+        }
     }
 }
