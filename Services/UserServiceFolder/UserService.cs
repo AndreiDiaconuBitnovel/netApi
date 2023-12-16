@@ -12,10 +12,17 @@ namespace WebApplication2.Services.UserServiceFolder
         {
             _testContext = testContext;
         }
+
+        public async Task<User> GetUserByUsername(string username)
+        {
+            return await  _testContext.Users.FirstOrDefaultAsync(x => x.Username == username);
+        }
+
         public async Task<List<User>> GetUsersByEmailOrUsername(string email, string username)
         {
             return await _testContext.Users.Where(x=>x.Username==username || x.Email==email).ToListAsync();
         }
+
 
         public async Task<User> SaveUserAndImg(string email, string username, byte[] data)
         {
