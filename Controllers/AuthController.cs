@@ -119,7 +119,7 @@ namespace WebApplication2.Controllers
                     if (emailExistOrUsername.Count() > 0)
                         return new AuthResult()
                         {
-                            Errors = new List<string>() { "Email already exists in database" },
+                            Errors = new List<string>() { "Email or username already exists in database" },
                             IsSuccessful = false,
                             Token = ""
                         };
